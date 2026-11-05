@@ -22,3 +22,14 @@ create table Tutees(--Basic information about every student who requests tutorin
     subject_needed VARCHAR(50) NOT NULL,
     period INT NOT NULL
 )
+
+create table Matches(
+    match_id INT PRIMARY KEY AUTO_INCREMENT,
+    tutor_id INT NOT NULL,
+    request_id INT NOT NULL,
+    week_of DATE NOT NULL, --The week of the tutoring session(important to put people who tutored prior week on low priority matching)
+    status ENUM('possible', 'completed') NOT NULL DEFAULT 'possible', --Important to keep track of whether the tutoring session was completed or not, so that we can prioritize students who have not been tutored yet
+
+    FOREIGN KEY (tutor_id) REFERENCES Tutors(student_id),
+    FOREIGN KEY (request_id) REFERENCES Tutees(request_id)
+)
